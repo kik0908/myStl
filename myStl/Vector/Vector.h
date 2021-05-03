@@ -76,6 +76,44 @@ public:
         }
     };
 
+    struct const_iterator
+    {
+        Type* _data;
+
+        const_iterator(Type* elem = nullptr) : _data(elem) {}
+        Type const& operator*() { return *_data; }
+        Type const& operator*() const { return *_data; }
+        bool operator==(const iterator& it) const
+        {
+            return _data == it._data;
+        }
+        bool operator!=(const iterator& it) const
+        {
+            return !(*this == it);
+        }
+        const_iterator& operator++()
+        {
+            ++_data;
+            return *this;
+        }
+        const_iterator operator++(int)
+        {
+            Type* tmp = _data;
+            ++_data;
+            return iterator(tmp);
+        }
+        const_iterator& operator--()
+        {
+            --_data;
+            return *this;
+        }
+        const_iterator operator--(int)
+        {
+            Type* tmp = _data;
+            --_data;
+            return iterator(tmp);
+        }
+    };
 
     Type& operator[](int idx);
     Type const& operator[](int idx) const;
@@ -90,7 +128,9 @@ public:
     void erase(iterator to_die);
 
     iterator begin() { return iterator(_data); }
-    iterator end() { return iterator(_data+_size); }
+    iterator end() { return iterator(_data + _size); }
+    iterator begin() const { return const_iterator(_data); }
+    iterator end() const { return const_iterator(_data+_size); }
 
     size_t size() const { return _size; }
 };
@@ -198,7 +238,7 @@ typename Vector<Type>::iterator Vector<Type>::insert(Vector<Type>::iterator it_i
         Type& tmp2 = *it;
         tmp2 = std::move(*(--it));
     }
-    *it_in = val;
+    *it_in = std::move(val);
     return it_in;
 }
 
