@@ -1,5 +1,6 @@
 #include "Vector/Vector.h"
 #include "List/List.h"
+#include "BSTree/BSTree.h"
 #include <iostream>
 
 
@@ -52,8 +53,19 @@ void list_test() {
     std::cout << list << '\n';
 }
 
+void bstree_test() {
+    BSTree<int> tree;
+    tree.insert(5);
+    tree.insert(4);
+    tree.insert(3);
+    tree.insert(2);
+    tree.insert(1);
+
+    tree.print();
+}
+
 int main() {
-    list_test();
+    bstree_test();
     
     return 0;
 }
